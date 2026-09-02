@@ -1,0 +1,45 @@
+/**
+ * About Component
+ *
+ * About section: full-width bio text.
+ */
+
+/* ── About Content Layout ── */
+.about__content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── About Text ── */
+.about__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.about__text p {
+    font-size: var(--font-size-md);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+}
+
+.about__text strong {
+    color: var(--color-text-primary);
+}
+
+.about__text em {
+    color: var(--color-primary-light);
+    font-style: italic;
+}
+
+.about__text a {
+    color: var(--color-primary-light);
+    text-decoration: underline;
+    text-decoration-color: rgba(18, 165, 181, 0.35);
+    text-underline-offset: 3px;
+    transition: text-decoration-color var(--transition-fast);
+}
+
+.about__text a:hover {
+    text-decoration-color: var(--color-primary-light);
+}

@@ -1,0 +1,264 @@
+/**
+ * Projects Component
+ *
+ * Projects section: featured project cards, filter bar, and project grid.
+ */
+
+/* ── Project Filter Bar ── */
+.projects__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-2xl);
+}
+
+.filter-btn {
+    padding: var(--space-sm) var(--space-lg);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.filter-btn:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-border-light);
+}
+
+.filter-btn.active {
+    color: var(--color-primary-light);
+    background: rgba(10, 126, 140, 0.1);
+    border-color: var(--color-primary);
+}
+
+/* ── Project Grid ── */
+.projects__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: var(--space-xl);
+}
+
+/* ── Project Card ── */
+.project-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-base);
+    display: flex;
+    flex-direction: column;
+    height: 445px;
+}
+
+.project-card:hover {
+    border-color: var(--color-border-light);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+}
+
+/* ── Expand indicator icon ── */
+.project-card__expand-indicator {
+    position: absolute;
+    top: var(--space-sm);
+    right: var(--space-sm);
+    font-size: var(--font-size-lg);
+    color: var(--color-primary-light);
+    opacity: 0.5;
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.project-card:hover .project-card__expand-indicator {
+    opacity: 1;
+    transform: translate(1px, -1px);
+}
+
+/* ── Clickable Card (when rendered as <a>) ── */
+.project-card--clickable {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.project-card--clickable:hover,
+.project-card--clickable:active,
+.project-card--clickable:focus-visible {
+    color: inherit;
+}
+
+/* Reset anchor hover color for card titles and text */
+.project-card--clickable .project-card__title,
+.project-card--clickable .project-card__description,
+.project-card--clickable .project-card__category,
+.project-card--clickable .tag {
+    color: inherit;
+}
+
+/* ── Project Thumbnail ── */
+.project-card__image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--color-surface);
+    position: relative;
+}
+
+.project-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.project-card:hover .project-card__image img {
+    transform: scale(1.04);
+}
+
+/* ── Project Card Body ── */
+.project-card__body {
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+}
+
+.project-card__category {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--color-primary-light);
+    margin-bottom: var(--space-sm);
+}
+
+.project-card__title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-sm);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.project-card__description {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.project-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+.project-card__links {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+/* ── Featured Project (Large) ── */
+/* ── Expandable Multi-Part Card ── */
+.project-card--expandable {
+    cursor: pointer;
+}
+
+.project-card--expandable:hover {
+    border-color: var(--color-primary);
+}
+
+.project-card__expand-icon {
+    display: inline-block;
+    font-size: 0.75em;
+    margin-left: var(--space-xs);
+    color: var(--color-primary-light);
+    transition: transform var(--transition-fast);
+}
+
+.project-card__sub-entries {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, margin-top 0.35s ease, padding 0.35s ease;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.project-card--expanded .project-card__sub-entries {
+    max-height: 300px;
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border);
+}
+
+.project-card--expanded {
+    height: auto;
+}
+
+.project-card__sub-entries-title {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-sm);
+}
+
+.project-card__sub-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.project-card__sub-list li {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    padding: var(--space-xs) 0;
+    padding-left: var(--space-md);
+    position: relative;
+}
+
+.project-card__sub-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-primary-light);
+}
+
+/* ── Highlight Pulse (used when navigating from skills popover) ── */
+@keyframes highlight-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(10, 126, 140, 0);
+        border-color: var(--color-border);
+    }
+    15%, 50% {
+        box-shadow: 0 0 20px 4px rgba(18, 165, 181, 0.35);
+        border-color: var(--color-primary-light);
+    }
+}
+
+.project-card--highlight {
+    animation: highlight-pulse 2s ease-in-out;
+}

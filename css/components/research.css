@@ -1,0 +1,34 @@
+/**
+ * Research Component
+ *
+ * Research interests section and inline accent tags.
+ */
+
+/* ── Research Intro Text ── */
+.research__intro {
+    font-size: var(--font-size-md);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    max-width: 800px;
+    margin: 0 auto var(--space-3xl);
+}
+
+/* ── Accent Tag (inline pill for key terms) ── */
+.accent-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary-light);
+    background: rgba(10, 126, 140, 0.12);
+    border: 1px solid rgba(18, 165, 181, 0.25);
+    border-radius: var(--radius-sm);
+    padding: 0.1em 0.55em;
+    vertical-align: baseline;
+    transition: background var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.accent-tag:hover {
+    background: rgba(10, 126, 140, 0.22);
+    box-shadow: 0 0 8px rgba(18, 165, 181, 0.2);
+}

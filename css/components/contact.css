@@ -1,0 +1,128 @@
+/**
+ * Contact Component
+ *
+ * Contact section: icon-led info list alongside call-to-action card.
+ */
+
+/* ── Contact Content Layout ── */
+.contact__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    align-items: start;
+}
+
+/* ── Contact Info List ── */
+.contact__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+/* ── Contact Item (shared by link and non-link variants) ── */
+.contact__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-lg);
+    border: 1px solid transparent;
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+/* ── Link variant — hover state ── */
+a.contact__item--link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+a.contact__item--link:hover {
+    border-color: var(--color-border);
+    background: var(--color-bg-card);
+}
+
+a.contact__item--link:hover .contact__icon {
+    color: var(--color-primary-light);
+}
+
+a.contact__item--link:hover .contact__value,
+a.contact__item--link:hover .contact__coords {
+    color: var(--color-primary-light);
+}
+
+a.contact__item--link:focus-visible {
+    outline: 2px solid var(--color-primary-light);
+    outline-offset: 2px;
+}
+
+/* ── Icon ── */
+.contact__icon {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.contact__icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ── Text Stack (label + value) ── */
+.contact__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.contact__label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+}
+
+.contact__value {
+    font-size: var(--font-size-base);
+    color: var(--color-text-primary);
+    line-height: var(--line-height-normal);
+    transition: color var(--transition-fast);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.contact__coords {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-wide);
+    transition: color var(--transition-fast);
+}
+
+/* ── Contact CTA Card ── */
+.contact__cta {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    align-items: flex-start;
+}
+
+.contact__cta p {
+    font-size: var(--font-size-md);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+}

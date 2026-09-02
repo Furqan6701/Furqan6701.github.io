@@ -1,0 +1,49 @@
+<!-- Navbar Template -->
+<!-- This is an HTML fragment, not a full document. -->
+<!-- It gets injected into #navbar-container by js/components/navbar.js. -->
+
+<!-- Skip navigation link for accessibility -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar__inner">
+        <!-- Logo -->
+        <a href="#" class="navbar__logo" aria-label="M. Furqan Shahid — Home">
+            <!-- Placeholder logo SVG — replace with your own -->
+            <svg viewBox="0 0 28 28" aria-hidden="true">
+                <circle cx="14" cy="14" r="12" fill="none" stroke="currentColor" stroke-width="2"/>
+                <circle cx="14" cy="14" r="4" fill="currentColor"/>
+                <line x1="14" y1="2" x2="14" y2="8" stroke="currentColor" stroke-width="2"/>
+                <line x1="14" y1="20" x2="14" y2="26" stroke="currentColor" stroke-width="2"/>
+                <line x1="2" y1="14" x2="8" y2="14" stroke="currentColor" stroke-width="2"/>
+                <line x1="20" y1="14" x2="26" y2="14" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span>M. Furqan Shahid</span>
+        </a>
+
+        <!-- Desktop nav links -->
+        <ul class="navbar__links" role="list">
+            <li><a href="#skills" class="navbar__link">Skills</a></li>
+            <li><a href="#projects" class="navbar__link">Projects</a></li>
+            <li><a href="#experience" class="navbar__link">Experience</a></li>
+            <li><a href="#research" class="navbar__link">Research</a></li>
+            <li><a href="#contact" class="navbar__link">Contact</a></li>
+        </ul>
+
+        <!-- Mobile hamburger toggle -->
+        <button class="navbar__toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+
+    <!-- Mobile menu (slides in from right) -->
+    <div class="navbar__menu" role="list">
+        <a href="#skills" class="navbar__link">Skills</a>
+        <a href="#projects" class="navbar__link">Projects</a>
+        <a href="#experience" class="navbar__link">Experience</a>
+        <a href="#research" class="navbar__link">Research</a>
+        <a href="#contact" class="navbar__link">Contact</a>
+    </div>
+</nav>

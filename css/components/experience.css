@@ -1,0 +1,499 @@
+/**
+ * Experience Component
+ *
+ * Horizontal zigzag timeline with rich collapsible cards.
+ * Desktop: cards pop out into a centered overlay on click.
+ * Mobile (<768px): cards expand inline.
+ * Entries alternate above/below a continuous horizontal line.
+ */
+
+/* ══════════════════════════════════════════════
+   Timeline Container + Continuous Line
+   ══════════════════════════════════════════════ */
+
+/* Section header: keep above timeline cards */
+#experience .section__header {
+    position: relative;
+    z-index: 1;
+    margin-bottom: var(--space-lg);
+}
+
+/* Scroll wrapper — the actual horizontal scroll container */
+.timeline-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-light) transparent;
+}
+
+.timeline-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.timeline-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.timeline-scroll::-webkit-scrollbar-thumb {
+    background: var(--color-border-light);
+    border-radius: 4px;
+}
+
+.timeline-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-light);
+}
+
+/* Timeline — sizes naturally to its content (inline-flex + max-content).
+   The scroll container is .timeline-scroll (above), not .timeline itself.
+   --timeline-items lets the ::before line calculate its endpoint. */
+.timeline {
+    position: relative;
+    display: inline-flex;
+    width: max-content;
+    gap: 24rem; /* ~384px — forces timeline wider than viewport */
+    padding: var(--space-2xl) 0;
+    height: 520px;
+}
+
+
+
+/* Continuous horizontal line — positioned by JS via custom properties.
+   --line-left and --line-width are set by positionLine() in experience.js
+   after measuring actual marker positions in the DOM. */
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: var(--line-left, 0);
+    width: var(--line-width, 0);
+    height: 2px;
+    background: var(--color-border);
+    border-radius: 1px;
+    transform: translateY(-1px);
+    z-index: 0;
+}
+
+/* ══════════════════════════════════════════════
+   Timeline Entry
+   ══════════════════════════════════════════════ */
+
+.timeline__item {
+    position: relative;
+    flex: 0 0 300px;
+    height: 100%;
+    --timeline-item-width: 300px;
+}
+
+/* ══════════════════════════════════════════════
+   Marker (sits on the line)
+   ══════════════════════════════════════════════ */
+
+.timeline__marker {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transform: translateY(-50%);
+}
+
+.timeline__dot {
+    width: 14px;
+    height: 14px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+    border: 3px solid var(--color-bg);
+    display: block;
+    box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+/* Date labels near the line are removed — dates live inside the cards only */
+.timeline__date {
+    display: none;
+}
+
+/* ══════════════════════════════════════════════
+   Card (rich, spacious)
+   ══════════════════════════════════════════════ */
+
+.timeline__card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+    cursor: pointer;
+    width: 100%;
+    max-width: 300px;
+    position: relative;
+}
+
+.timeline__card:hover {
+    border-color: var(--color-border-light);
+    box-shadow: var(--shadow-lg);
+}
+
+.timeline__card:focus-visible {
+    outline: 2px solid var(--color-primary-light);
+    outline-offset: 2px;
+}
+
+/* Connector stem from card edge to the line */
+.timeline__card::before {
+    content: '';
+    position: absolute;
+    left: 9px;
+    width: 2px;
+    background: var(--color-border-light);
+}
+
+/* Below-line: card sits 16px below the line, stem connects up to it */
+.timeline__item:not(.timeline__item--above) .timeline__card {
+    position: absolute;
+    top: calc(50% + var(--space-md));
+    left: 0;
+    right: 0;
+}
+
+.timeline__item:not(.timeline__item--above) .timeline__card::before {
+    top: calc(-1 * var(--space-md));
+    height: var(--space-md);
+}
+
+/* Above-line: card sits 16px above the line, stem connects down to it */
+.timeline__item--above .timeline__card {
+    position: absolute;
+    bottom: calc(50% + var(--space-md));
+    left: 0;
+    right: 0;
+}
+
+.timeline__item--above .timeline__card::before {
+    bottom: calc(-1 * var(--space-md));
+    height: var(--space-md);
+}
+
+/* Active card highlight while pop-out is open */
+.timeline__card--active {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(10, 126, 140, 0.25);
+}
+
+/* ── Card Top: icon + org + badge ── */
+.timeline__card-top {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+}
+
+.timeline__icon {
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+}
+
+.timeline__icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.timeline__icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.timeline__card-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    min-width: 0;
+}
+
+.timeline__org {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.timeline__badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    padding: 0.2em 0.6em;
+    border-radius: var(--radius-sm);
+    color: var(--color-primary-light);
+    background: rgba(10, 126, 140, 0.1);
+    border: 1px solid rgba(18, 165, 181, 0.2);
+    width: fit-content;
+}
+
+/* ── Divider ── */
+.timeline__card-divider {
+    height: 1px;
+    background: var(--color-border);
+    margin-bottom: var(--space-sm);
+}
+
+/* ── Role + Date ── */
+.timeline__role {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+    line-height: var(--line-height-tight);
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Date inside the card */
+.timeline__card-date {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    color: var(--color-primary-light);
+    letter-spacing: var(--letter-spacing-wide);
+    display: block;
+    margin-bottom: 0;
+}
+
+/* Expand icon */
+.timeline__expand-icon {
+    display: none;
+    font-size: 0.85em;
+    color: var(--color-primary-light);
+    line-height: 1;
+    margin-top: var(--space-xs);
+}
+
+/* ══════════════════════════════════════════════
+   Details: bulletproof collapse
+   ══════════════════════════════════════════════ */
+
+.timeline__details {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin-top: 0;
+    pointer-events: none;
+}
+
+/* ══════════════════════════════════════════════
+   Content Styles (shared between card and pop-out)
+   ══════════════════════════════════════════════ */
+
+.timeline__description {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-md);
+}
+
+.timeline__gpa {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary-light);
+    margin-bottom: var(--space-md);
+}
+
+.timeline__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+}
+
+.timeline__highlights {
+    list-style: none;
+    padding: 0;
+    margin-bottom: var(--space-md);
+}
+
+.timeline__highlights li {
+    position: relative;
+    padding-left: var(--space-lg);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-sm);
+    line-height: var(--line-height-relaxed);
+}
+
+.timeline__highlights li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary-light);
+}
+
+.timeline__courses {
+    margin-top: var(--space-md);
+}
+
+.timeline__courses-title {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    margin-bottom: var(--space-sm);
+}
+
+/* ══════════════════════════════════════════════
+   Pop-out Overlay (desktop only)
+   ══════════════════════════════════════════════ */
+
+/* ── Experience Popout Content ── */
+
+.popout-experience {
+    display: flex;
+    flex-direction: column;
+}
+
+.popout-experience__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.popout-experience__icon {
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-primary-light);
+    overflow: hidden;
+}
+
+.popout-experience__icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.popout-experience__icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.popout-experience__org {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.popout-experience .timeline__badge {
+    display: inline-block;
+    margin-top: var(--space-xs);
+}
+
+.popout-experience__divider {
+    height: 1px;
+    background: var(--color-border);
+    margin-bottom: var(--space-lg);
+}
+
+.popout-experience__role {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.popout-experience__date {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+    color: var(--color-primary-light);
+    letter-spacing: var(--letter-spacing-wide);
+    margin-bottom: var(--space-lg);
+}
+
+.popout-experience__content {
+    display: flex;
+    flex-direction: column;
+}
+
+.popout-experience__desc {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-md);
+}
+
+.popout-experience__bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-md);
+}
+
+.popout-experience__bullets li {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    padding: var(--space-xs) 0;
+    padding-left: var(--space-md);
+    position: relative;
+}
+
+.popout-experience__bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-primary-light);
+}
+
+.popout-experience__gpa {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-md);
+}
+
+.popout-experience__courses {
+    margin-bottom: var(--space-md);
+}
+
+.popout-experience__courses-label {
+    display: block;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-sm);
+}
+
+.popout-experience__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}

@@ -1,0 +1,102 @@
+/**
+ * Buttons Component
+ *
+ * Reusable button styles: primary, secondary, outline, ghost, and icon variants.
+ */
+
+/* ── Base Button ── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: 0.75rem 1.5rem;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+/* ── Primary ── */
+.btn--primary {
+    background: var(--color-primary);
+    color: #ffffff;
+    border-color: var(--color-primary);
+}
+
+.btn--primary:hover {
+    background: var(--color-primary-light);
+    border-color: var(--color-primary-light);
+    color: #ffffff;
+    box-shadow: var(--shadow-glow);
+}
+
+/* ── Secondary ── */
+.btn--secondary {
+    background: var(--color-secondary);
+    color: #ffffff;
+    border-color: var(--color-secondary);
+}
+
+.btn--secondary:hover {
+    background: var(--color-secondary-light);
+    border-color: var(--color-secondary-light);
+    color: #ffffff;
+}
+
+/* ── Outline ── */
+.btn--outline {
+    background: transparent;
+    color: var(--color-text-primary);
+    border-color: var(--color-border-light);
+}
+
+.btn--outline:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--color-primary-light);
+    color: var(--color-primary-light);
+}
+
+/* ── Ghost ── */
+.btn--ghost {
+    background: transparent;
+    color: var(--color-text-secondary);
+    border-color: transparent;
+}
+
+.btn--ghost:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-text-primary);
+}
+
+/* ── Sizes ── */
+.btn--sm {
+    padding: 0.5rem 1rem;
+    font-size: var(--font-size-xs);
+}
+
+.btn--lg {
+    padding: 1rem 2rem;
+    font-size: var(--font-size-base);
+}
+
+/* ── Icon-only Button ── */
+.btn--icon {
+    padding: 0.5rem;
+    width: 40px;
+    height: 40px;
+}
+
+.btn--icon svg {
+    width: 20px;
+    height: 20px;
+}
