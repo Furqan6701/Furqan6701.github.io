@@ -61,12 +61,6 @@
     }
 
 
-    /* Skills */
-    .skills__grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-md);
-    }
-
     /* Contact */
     .contact__content {
         grid-template-columns: 1fr;
@@ -292,12 +286,6 @@
     /* Experience popout: not needed on mobile (uses inline expand) */
     #experience-container .popout-shell {
         display: none;
-    }
-
-    /* Skills */
-    .skills__grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-sm);
     }
 
 

@@ -1,64 +1,241 @@
 /**
- * Skills Component
+ * Skills Component — Radial Hub-and-Spoke Diagram
  *
- * Tag-cloud layout with 6 domain groups, clickable technology chips,
- * and compact project popover.
+ * All categories and skills always visible.
+ * SVG lines + HTML node overlays.
+ * Skill chip clicks open a compact popover showing related projects.
  */
 
-/* ── Domain Grid ── */
-.skills__grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-lg) var(--space-3xl);
+/* ══════════════════════════════════════════════
+   Diagram Container
+   ══════════════════════════════════════════════ */
+
+.skills__diagram-wrap {
+    display: flex;
+    justify-content: center;
     margin-bottom: var(--space-xl);
 }
 
-/* ── Domain Group (borderless) ── */
-.skills__domain {
-    padding-bottom: var(--space-md);
-}
-
-.skills__domain-header {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: var(--space-sm);
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--color-border);
-}
-
-.skills__domain-icon {
-    width: 18px;
-    height: 18px;
-    color: var(--color-primary-light);
+.skills__diagram {
+    position: relative;
+    width: 780px;
+    height: 640px;
     flex-shrink: 0;
 }
 
-.skills__domain-icon svg {
+/* ══════════════════════════════════════════════
+   SVG Lines Layer
+   ══════════════════════════════════════════════ */
+
+.skills__lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.skills__line--center {
+    fill: none;
+    stroke-width: 2;
+    stroke-dasharray: 4 4;
+    opacity: 0.3;
+}
+
+.skills__branch-line {
+    fill: none;
+    stroke-width: 1.5;
+    stroke-dasharray: 4 4;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.skills__branch-line--visible {
+    opacity: 0.45;
+}
+
+/* ══════════════════════════════════════════════
+   Mobile (≤768px) — dropdown replaces fan-out
+   ══════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+    /* Hide desktop fan-out entirely */
+    .skills__branch-line,
+    .skills__node { display: none; }
+
+    /* Dropdown panel */
+    .skills__dropdown {
+        position: absolute;
+        transform: translateX(-50%);
+        z-index: 5;
+        display: none; /* hidden by default, toggled open via JS */
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+        padding: var(--space-sm);
+        background: var(--color-bg-card);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        max-width: 300px;
+        width: max-content;
+    }
+
+    .skills__dropdown--open {
+        display: flex;
+    }
+
+    /* Category node — hide text label on mobile to save space */
+    .skills__cat-label {
+        display: none;
+    }
+
+    .skills__cat {
+        padding: 6px 10px;
+    }
+}
+
+/* ══════════════════════════════════════════════
+   Center Node
+   ══════════════════════════════════════════════ */
+
+.skills__center {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    border-radius: var(--radius-full);
+    background: transparent;
+    text-align: center;
+}
+
+.skills__center-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary-light);
+    line-height: 1.3;
+}
+
+/* ── Globe ── */
+
+.skills__globe {
     width: 100%;
     height: 100%;
 }
 
-.skills__domain-title {
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wide);
+/* ══════════════════════════════════════════════
+   Category Nodes
+   ══════════════════════════════════════════════ */
+
+.skills__cat {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-card);
+    border: 1.5px solid var(--color-border);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* ── Technology Chips ── */
-.skills__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+.skills__cat:hover {
+    transform: translate(-50%, -50%) scale(1.04);
+}
+
+.skills__cat--active {
+    box-shadow: 0 0 12px rgba(10, 126, 140, 0.25);
+}
+
+.skills__cat:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.skills__cat-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.skills__cat-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.skills__cat-label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--color-text-muted);
+}
+
+/* Category accent colors */
+.skills__cat[data-domain="gis-remote-sensing"] { border-color: #10a5b5; }
+.skills__cat[data-domain="gis-remote-sensing"] .skills__cat-icon { color: #10a5b5; }
+.skills__cat[data-domain="gis-remote-sensing"] .skills__cat-label { color: #10a5b5; }
+.skills__cat[data-domain="gis-remote-sensing"]:hover { box-shadow: 0 0 14px rgba(16, 165, 181, 0.4); }
+
+.skills__cat[data-domain="photogrammetry"] { border-color: #8b5cf6; }
+.skills__cat[data-domain="photogrammetry"] .skills__cat-icon { color: #8b5cf6; }
+.skills__cat[data-domain="photogrammetry"] .skills__cat-label { color: #8b5cf6; }
+.skills__cat[data-domain="photogrammetry"]:hover { box-shadow: 0 0 14px rgba(139, 92, 246, 0.4); }
+
+.skills__cat[data-domain="programming"] { border-color: #f59e0b; }
+.skills__cat[data-domain="programming"] .skills__cat-icon { color: #f59e0b; }
+.skills__cat[data-domain="programming"] .skills__cat-label { color: #f59e0b; }
+.skills__cat[data-domain="programming"]:hover { box-shadow: 0 0 14px rgba(245, 158, 11, 0.4); }
+
+.skills__cat[data-domain="computer-vision"] { border-color: #ef4444; }
+.skills__cat[data-domain="computer-vision"] .skills__cat-icon { color: #ef4444; }
+.skills__cat[data-domain="computer-vision"] .skills__cat-label { color: #ef4444; }
+.skills__cat[data-domain="computer-vision"]:hover { box-shadow: 0 0 14px rgba(239, 68, 68, 0.4); }
+
+.skills__cat[data-domain="web-backend"] { border-color: #3b82f6; }
+.skills__cat[data-domain="web-backend"] .skills__cat-icon { color: #3b82f6; }
+.skills__cat[data-domain="web-backend"] .skills__cat-label { color: #3b82f6; }
+.skills__cat[data-domain="web-backend"]:hover { box-shadow: 0 0 14px rgba(59, 130, 246, 0.4); }
+
+.skills__cat[data-domain="other-skills"] { border-color: #6b7280; }
+.skills__cat[data-domain="other-skills"] .skills__cat-icon { color: #6b7280; }
+.skills__cat[data-domain="other-skills"] .skills__cat-label { color: #6b7280; }
+.skills__cat[data-domain="other-skills"]:hover { box-shadow: 0 0 14px rgba(107, 114, 128, 0.4); }
+
+/* ══════════════════════════════════════════════
+   Skill Nodes
+   ══════════════════════════════════════════════ */
+
+.skills__node {
+    position: absolute;
+    transform: translate(-50%, -50%) scale(0.85);
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.skills__node--visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
 }
 
 .skills__chip {
     display: inline-flex;
     align-items: center;
-    padding: 5px 12px;
-    font-size: var(--font-size-sm);
+    padding: 4px 10px;
+    font-size: 0.7rem;
     font-weight: var(--font-weight-medium);
     font-family: var(--font-primary);
     color: var(--color-text-secondary);
@@ -67,26 +244,88 @@
     border-radius: var(--radius-full);
     cursor: pointer;
     transition: all var(--transition-fast);
-    line-height: 1.4;
+    line-height: 1.3;
+    white-space: nowrap;
 }
 
 .skills__chip:hover {
     border-color: var(--color-primary);
     color: var(--color-primary-light);
     background: var(--color-surface-alt);
+    box-shadow: 0 0 8px rgba(10, 126, 140, 0.2);
+}
+
+.skills__chip:focus-visible {
+    outline: 2px solid var(--color-primary-light);
+    outline-offset: 2px;
 }
 
 .skills__chip--active {
     border-color: var(--color-primary);
     color: var(--color-primary-light);
     background: rgba(10, 126, 140, 0.15);
+    box-shadow: 0 0 12px rgba(10, 126, 140, 0.25);
 }
 
 .skills__chip-name {
     white-space: nowrap;
 }
 
-/* ── Popover ── */
+/* Accent-colored hover glow per domain */
+.skills__chip[data-domain="gis-remote-sensing"]:hover,
+.skills__chip[data-domain="gis-remote-sensing"].skills__chip--active {
+    border-color: #10a5b5;
+    color: #10a5b5;
+    box-shadow: 0 0 10px rgba(16, 165, 181, 0.3);
+}
+
+.skills__chip[data-domain="photogrammetry"]:hover,
+.skills__chip[data-domain="photogrammetry"].skills__chip--active {
+    border-color: #8b5cf6;
+    color: #8b5cf6;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+}
+
+.skills__chip[data-domain="programming"]:hover,
+.skills__chip[data-domain="programming"].skills__chip--active {
+    border-color: #f59e0b;
+    color: #f59e0b;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+}
+
+.skills__chip[data-domain="computer-vision"]:hover,
+.skills__chip[data-domain="computer-vision"].skills__chip--active {
+    border-color: #ef4444;
+    color: #ef4444;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.skills__chip[data-domain="web-backend"]:hover,
+.skills__chip[data-domain="web-backend"].skills__chip--active {
+    border-color: #3b82f6;
+    color: #3b82f6;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+.skills__chip[data-domain="other-skills"]:hover,
+.skills__chip[data-domain="other-skills"].skills__chip--active {
+    border-color: #6b7280;
+    color: #9ca3af;
+    box-shadow: 0 0 10px rgba(107, 114, 128, 0.3);
+}
+
+/* ══════════════════════════════════════════════
+   Dropdown (mobile skill panels)
+   ══════════════════════════════════════════════ */
+
+.skills__dropdown {
+    display: none; /* hidden on desktop — fan-out is used instead */
+}
+
+/* ══════════════════════════════════════════════
+   Popover
+   ══════════════════════════════════════════════ */
+
 .skills__popover {
     position: fixed;
     z-index: 200;
