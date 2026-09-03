@@ -56,6 +56,14 @@
 }
 
 /* ══════════════════════════════════════════════
+   Dropdown (hidden on desktop, used only on mobile)
+   ══════════════════════════════════════════════ */
+
+.skills__dropdown {
+    display: none;
+}
+
+/* ══════════════════════════════════════════════
    Mobile (≤768px) — dropdown replaces fan-out
    ══════════════════════════════════════════════ */
 
@@ -212,6 +220,22 @@
 .skills__cat[data-domain="other-skills"] .skills__cat-label { color: #6b7280; }
 .skills__cat[data-domain="other-skills"]:hover { box-shadow: 0 0 14px rgba(107, 114, 128, 0.4); }
 
+/* Icon wiggle on category hover */
+@keyframes icon-wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-16deg); }
+    75% { transform: rotate(16deg); }
+}
+
+.skills__cat:hover .skills__cat-icon {
+    animation: icon-wiggle 0.5s ease-in-out infinite;
+}
+
+.skills__cat:not(:hover) .skills__cat-icon {
+    animation: none;
+    transform: rotate(0deg);
+}
+
 /* ══════════════════════════════════════════════
    Skill Nodes
    ══════════════════════════════════════════════ */
@@ -253,6 +277,7 @@
     color: var(--color-primary-light);
     background: var(--color-surface-alt);
     box-shadow: 0 0 8px rgba(10, 126, 140, 0.2);
+    transform: scale(1.04);
 }
 
 .skills__chip:focus-visible {
@@ -312,17 +337,7 @@
     border-color: #6b7280;
     color: #9ca3af;
     box-shadow: 0 0 10px rgba(107, 114, 128, 0.3);
-}
-
-/* ══════════════════════════════════════════════
-   Dropdown (mobile skill panels)
-   ══════════════════════════════════════════════ */
-
-.skills__dropdown {
-    display: none; /* hidden on desktop — fan-out is used instead */
-}
-
-/* ══════════════════════════════════════════════
+}/* ══════════════════════════════════════════════
    Popover
    ══════════════════════════════════════════════ */
 

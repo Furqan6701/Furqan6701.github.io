@@ -33,6 +33,11 @@
         justify-content: center;
     }
 
+    .hero__image-wrap {
+        width: 260px;
+        height: 260px;
+    }
+
     .hero__image {
         width: 260px;
         height: 260px;
@@ -131,6 +136,11 @@
         min-height: auto;
         padding-top: calc(var(--navbar-height) + var(--space-2xl));
         padding-bottom: var(--space-3xl);
+    }
+
+    .hero__image-wrap {
+        width: 200px;
+        height: 200px;
     }
 
     .hero__image {

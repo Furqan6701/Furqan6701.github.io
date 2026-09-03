@@ -402,6 +402,25 @@ function toggleCategory(domainId) {
     }
 }
 
+function collapseAllFanouts(diagram) {
+    expandedCategories.forEach(id => {
+        const nodes = diagram.querySelectorAll(`.skills__node[data-domain="${id}"]`);
+        const lines = diagram.querySelectorAll(`.skills__branch-line[data-domain="${id}"]`);
+        nodes.forEach(el => {
+            el.style.transitionDelay = '';
+            el.classList.remove('skills__node--visible');
+        });
+        lines.forEach(el => {
+            el.style.transitionDelay = '';
+            el.classList.remove('skills__branch-line--visible');
+        });
+    });
+    expandedCategories.clear();
+    diagram.querySelectorAll('.skills__cat--active').forEach(cat => {
+        cat.classList.remove('skills__cat--active');
+    });
+}
+
 function closeAllDropdowns(diagram) {
     diagram.querySelectorAll('.skills__dropdown--open').forEach(dd => {
         dd.classList.remove('skills__dropdown--open');
@@ -432,12 +451,14 @@ function bindEvents(container) {
                 return;
             }
 
-            // Mobile: tapping on globe/background closes all open dropdowns
-            // Only fire if tap is NOT on a category node or an open dropdown
+            // Empty space clicked — collapse all expanded categories
+            // (category and chip clicks both return above, so we only reach here for background/globe taps)
             if (window.innerWidth <= 768) {
-                if (!e.target.closest('.skills__cat') && !e.target.closest('.skills__dropdown')) {
+                if (!e.target.closest('.skills__dropdown')) {
                     closeAllDropdowns(diagram);
                 }
+            } else {
+                collapseAllFanouts(diagram);
             }
         });
     }

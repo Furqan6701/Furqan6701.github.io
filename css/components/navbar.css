@@ -46,10 +46,16 @@
     gap: var(--space-sm);
 }
 
+.navbar__logo svg,
+.navbar__logo .navbar__icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+}
+
 .navbar__logo svg {
-    width: 28px;
-    height: 28px;
-    fill: var(--color-primary-light);
+    stroke: var(--color-primary-light);
+    fill: none;
 }
 
 /* ── Nav Links ── */

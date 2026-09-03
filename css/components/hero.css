@@ -71,15 +71,43 @@
     flex-wrap: wrap;
 }
 
+.hero__actions .btn:hover {
+    transform: scale(1.04);
+}
+
 /* ── Profile Image ── */
-.hero__image {
+.hero__image-wrap {
     flex: 0 0 auto;
+    width: 340px;
+    height: 340px;
+    position: relative;
+}
+
+/* SVG beam overlay */
+.hero__glow-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    filter: drop-shadow(0 0 6px rgba(16, 165, 181, 0.6));
+    animation: beam-chase 3.5s linear infinite;
+}
+
+@keyframes beam-chase {
+    to { stroke-dashoffset: -1333; }
+}
+
+.hero__image {
     width: 340px;
     height: 340px;
     border-radius: var(--radius-xl);
     overflow: hidden;
     border: 3px solid var(--color-primary-dark);
     box-shadow: 0 0 0 4px rgba(10, 126, 140, 0.12), var(--shadow-lg);
+    position: relative;
+    z-index: 1;
 }
 
 .hero__image img {
@@ -104,3 +132,17 @@
     text-transform: uppercase;
     letter-spacing: var(--letter-spacing-wide);
 }
+
+/* ── Letter-by-letter glow on name ── */
+.hero__name .hero__letter {
+    display: inline-block;
+    transition: color 0.25s ease, text-shadow 0.25s ease;
+    will-change: color, text-shadow;
+}
+
+.hero__name .hero__letter--glow {
+    color: var(--color-primary-light);
+    text-shadow: 0 0 12px rgba(10, 126, 140, 0.5), 0 0 24px rgba(10, 126, 140, 0.2);
+}
+
+
