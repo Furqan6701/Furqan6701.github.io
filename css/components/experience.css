@@ -127,7 +127,7 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     padding: var(--space-md);
-    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+    transition: border-color var(--transition-base), box-shadow var(--transition-base), transform var(--transition-fast);
     cursor: pointer;
     width: 100%;
     max-width: 300px;
@@ -136,8 +136,13 @@
 
 .timeline__card:hover {
     border-color: var(--color-border-light);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 0 16px rgba(10, 126, 140, 0.25), var(--shadow-lg);
+    transform: scale(1.04);
 }
+
+
+
+
 
 .timeline__card:focus-visible {
     outline: 2px solid var(--color-primary-light);
