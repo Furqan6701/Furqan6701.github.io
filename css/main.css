@@ -9,6 +9,22 @@
 body {
     background-color: var(--color-bg);
     overflow-x: hidden;
+    cursor: url('../assets/images/icons/cursor-crosshair.svg') 16 16, auto;
+}
+
+/* Active crosshair (with center dot) for clickable elements */
+a:hover, a:focus,
+button:hover, button:focus,
+[role='button']:hover, [role='button']:focus,
+.navbar__link:hover, .navbar__link:focus,
+.navbar__toggle:hover, .navbar__toggle:focus,
+.btn:hover, .btn:focus,
+.project-card:hover, .project-card:focus,
+.skills__chip:hover, .skills__chip:focus,
+.skills__cat:hover, .skills__cat:focus,
+.timeline__card:hover, .timeline__card:focus,
+.popout__close:hover, .popout__close:focus {
+    cursor: url('../assets/images/icons/cursor-crosshair-active.svg') 16 16, pointer;
 }
 
 /* ── Selection ── */

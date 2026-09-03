@@ -49,6 +49,7 @@ h1, h2, h3, h4, h5, h6 {
 a {
     color: inherit;
     text-decoration: none;
+    cursor: pointer;
 }
 
 /* Make images easier to work with */
@@ -68,6 +69,11 @@ textarea,
 select {
     font: inherit;
     color: inherit;
+}
+
+input,
+textarea {
+    cursor: text;
 }
 
 /* Button reset */
