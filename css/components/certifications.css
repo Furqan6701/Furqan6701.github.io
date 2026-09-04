@@ -1,0 +1,48 @@
+/**
+ * Certifications Component
+ *
+ * Compact card layout for the certifications section.
+ * Reuses existing BEM classes (.card, .timeline__badge, .card__title,
+ * .timeline__card-date, .card__subtitle, .btn); only the section-specific
+ * row and footer layout are defined here.
+ */
+
+/* Card sized to roughly half the container, left-aligned with the header */
+.certifications__card {
+    max-width: 50%;
+}
+
+/* Badge + title + date on one row; date pushed to the right */
+.certifications__row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+}
+
+.certifications__title {
+    font-size: var(--font-size-base);
+    margin-bottom: 0;
+    min-width: 0;
+}
+
+.certifications__date {
+    margin-left: auto;
+}
+
+.certifications__desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-md);
+}
+
+/* Issuer text + action button on one row */
+.certifications__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+}

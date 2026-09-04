@@ -298,7 +298,10 @@
         display: none;
     }
 
-
+    /* Certifications — card returns to full width on mobile */
+    .certifications__card {
+        max-width: 100%;
+    }
 
     /* Footer */
     .footer__inner {

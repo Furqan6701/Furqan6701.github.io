@@ -21,6 +21,11 @@
     transform: translateY(-2px);
 }
 
+/* ── Compact Card ── */
+.card--compact {
+    padding: var(--space-md);
+}
+
 /* ── Card with Image ── */
 .card--with-image {
     padding: 0;

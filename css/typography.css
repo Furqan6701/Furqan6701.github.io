@@ -150,3 +150,34 @@ code {
     text-transform: uppercase;
     letter-spacing: var(--letter-spacing-wide);
 }
+
+/* ── Animated Glow Text ── */
+/* Slow, breathing glow on the teal accent. Soft text-shadow pulse —
+   clearly visible on the dark card, but eased over 3.5s so it breathes
+   rather than blinks. */
+.text-glow {
+    color: var(--color-primary-light);
+    font-weight: var(--font-weight-semibold);
+    animation: text-glow-pulse 3.5s ease-in-out infinite;
+}
+
+/* Glow colors: rgba values of --color-primary-light (#12a5b5) and
+   --color-primary (#0a7e8c) from css/variables.css. */
+@keyframes text-glow-pulse {
+    0%, 100% {
+        text-shadow: 0 0 6px rgba(18, 165, 181, 0.6);
+    }
+    50% {
+        text-shadow:
+            0 0 6px rgba(18, 165, 181, 1),
+            0 0 16px rgba(10, 126, 140, 0.8);
+    }
+}
+
+/* Disable the animation and keep a static teal glow for reduced-motion users */
+@media (prefers-reduced-motion: reduce) {
+    .text-glow {
+        animation: none;
+        text-shadow: 0 0 8px rgba(18, 165, 181, 0.9);
+    }
+}

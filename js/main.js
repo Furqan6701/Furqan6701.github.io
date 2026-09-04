@@ -16,6 +16,7 @@ import { initHero } from './components/hero.js';
 import { initSkills } from './components/skills.js';
 import { initProjects } from './components/projects.js';
 import { initExperience } from './components/experience.js';
+import { initCertifications } from './components/certifications.js';
 import { initResearch } from './components/research.js';
 import { initContact } from './components/contact.js';
 import { initFooter } from './components/footer.js';
@@ -41,6 +42,7 @@ async function init() {
         initSkills(),
         initProjects(),
         initExperience(),
+        initCertifications(),
         initResearch(),
         initContact(),
         initFooter(),
@@ -49,7 +51,7 @@ async function init() {
     // Log any components that failed to initialize
     const componentNames = [
         'Navbar', 'Hero', 'Skills', 'Projects',
-        'Experience', 'Research', 'Contact', 'Footer',
+        'Experience', 'Certifications', 'Research', 'Contact', 'Footer',
     ];
     results.forEach((result, i) => {
         if (result.status === 'rejected') {
