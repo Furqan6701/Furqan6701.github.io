@@ -48,7 +48,7 @@ export const journey = [
         role: 'GIS Intern',
         company: 'The Map Ventures',
         location: 'Islamabad, Pakistan',
-        startDate: 'June 2026',
+        startDate: 'July 2026',
         endDate: 'August 2026',
         description: '',
         highlights: [

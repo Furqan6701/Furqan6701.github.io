@@ -7,9 +7,22 @@
  * row and footer layout are defined here.
  */
 
+/* Cards stacked vertically with spacing between them */
+.certifications__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
 /* Card sized to roughly half the container, left-aligned with the header */
 .certifications__card {
     max-width: 50%;
+}
+
+/* Second card pushed to the right side */
+/* Both cards are direct children, so nth-of-type(2) selects the second one */
+.certifications__card:nth-of-type(2) {
+    margin-left: auto;
 }
 
 /* Badge + title + date on one row; date pushed to the right */
