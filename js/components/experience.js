@@ -44,6 +44,14 @@ function buildEntryDetails(entry) {
         parts.push(`<div class="popout-experience__courses"><span class="popout-experience__courses-label">Relevant Coursework</span><div class="popout-experience__tags">${entry.courses.map(c => `<span class="tag">${c}</span>`).join('')}</div></div>`);
     }
 
+    if (entry.upcomingCoursework && entry.upcomingCoursework.length) {
+        parts.push(
+            `<div class="popout-experience__courses popout-experience__courses--upcoming">` +
+            `<span class="popout-experience__courses-label">Coursework Completing by June 6, 2027</span>` +
+            `<div class="popout-experience__tags">${entry.upcomingCoursework.map(c => `<span class="tag tag--upcoming">${c}</span>`).join('')}</div></div>`
+        );
+    }
+
     if (entry.highlights && entry.highlights.length) {
         parts.push(`<ul class="popout-experience__bullets">${entry.highlights.map(b => `<li>${b}</li>`).join('')}</ul>`);
     }

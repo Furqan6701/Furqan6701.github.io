@@ -502,3 +502,15 @@
     flex-wrap: wrap;
     gap: var(--space-sm);
 }
+
+/* Upcoming/not-yet-completed coursework variant — outlined, lower-opacity, same tag theme */
+.popout-experience__courses--upcoming {
+    margin-top: var(--space-md);
+}
+
+.tag--upcoming {
+    color: var(--color-text-muted);
+    background: transparent;
+    border-color: var(--color-border-light);
+    opacity: 0.9;
+}
